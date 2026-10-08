@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: lightblue;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#main {
+    background-color: whitesmoke;
+    width: 70%;
+    margin: 0 auto;
+    padding: 0 1rem 2rem 1rem;
+}
+#header {
+    height: max-content;
+    border-radius: .25rem;
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+}
+#header img {
+    max-width: 150px;
+    float: right;
+}
+#header h1 {
+    font-size: 3.5rem;
+    color: darkblue;
+}
+form {
+    width: 85%;
+    margin: 0 auto;
+    padding: 0 1rem 2rem 1rem;
+}
+input[type="text"], input[type="email"], select, textarea {
+    width: 100%;
+    border: 1px solid darkblue;
+    border-radius: .25em;
+    margin: 0rem 0rem 1rem 0rem;
+    padding: .75rem;
+}
+legend {
+    color: darkblue;
+    font-variant: small-caps;
+    font-size: 1.5rem;
+    padding-left: 1rem;
+    width: 100%;
+}
+fieldset {
+    border: 1px solid darkblue;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+}
+label {
+    padding-bottom: 0.5rem;
+}
+textarea {
+    resize: none;
+}
