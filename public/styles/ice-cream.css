@@ -58,6 +58,6 @@ textarea {
 }
 
 .err {
-    color: red;
     display: none;
+    color: red;
 }
