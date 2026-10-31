@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="styles/ice-cream.css">
     <link rel="icon" href="images/ice-cream-cone-icon.webp">
-    <script src="js/ice-cream.js" defer></script>
+    <!--<script src="js/ice-cream.js" defer></script>-->
 </head>
 <body>
     <div id="main">
@@ -15,21 +15,21 @@
             <img src="images/ice-cream-cone.png" alt="An image of an ice cream cone">
             <h1>Ice Cream Order Form</h1>
         </div>
-        <form id="order-form" action="#" method="get">
+        <form id="order-form" action="/submit-order" method="post">
             <fieldset>
                 <legend>Personal Information</legend>
-                <span class="err" id="err-name">Field Not Valid</span>
                 <label for="name">Name: </label>
+                <span class="err" id="err-name">Field Not Valid</span>
                 <input type="text" id="name" name="name">
-                <span class="err" id="err-email">Field Not Valid </span>
                 <label for="email">Email: </label>
+                <span class="err" id="err-email">Field Not Valid </span>
                 <input type="email" id="email" name="email">
             </fieldset>
 
             <fieldset>
                 <legend>Order Details</legend>
-                <span class="err" id="err-flavor">Field Not Valid</span>
                 <label for="flavor">Choose your flavor:</label>
+                <span class="err" id="err-flavor">Field Not Valid</span>
                 <select id="flavor" name="flavor">
                         <option value="none">--- Select a flavor ---</option>
                         <option value="small">Vanilla</option>
