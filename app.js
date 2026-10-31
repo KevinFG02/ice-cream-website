@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 
 // Port
-const PORT = 3004;
+const PORT = 3001;
 
 app.use(express.static('public'));
 
