@@ -31,6 +31,8 @@ document.getElementById("order-form").onsubmit = () => {
     if (!methodSelected) {
         document.getElementById("err-flavor").style.display = "block";
         isValid = false;
+    } else {
+        clearErrors();
     }
     
     // Cones
@@ -44,12 +46,12 @@ document.getElementById("order-form").onsubmit = () => {
 
     }
 
-    return isValid;
-}
-
-function clearErrors(){
+    function clearErrors(){
         let errors = document.getElementsByClassName("err");
         for(let i=0; i < errors.length; i++){
             errors[i].style.display = "none";
         }
     }
+
+    return isValid;
+}
