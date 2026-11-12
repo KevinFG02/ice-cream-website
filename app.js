@@ -62,20 +62,14 @@ app.post('/submit-order', (req, res) => {
 
 app.get('/admin', async(req, res) =>{
     try {
-        const orders = await pool.query('SELECT * FROM orders');
-        res.send([orders]);
-        res.render('admin', orders);
-    } catch(err){
-        // If ANY error happened in the 'try' block, this code runs
-        // Log the error to the server console (for developers to see)
+        const [orders] = await pool.query('SELECT * FROM orders ORDER BY timestamp DESC');
+        console.log(orders);
+        res.render('admin', { orders:orders });
 
-        console.error("Database error: ", err);
-        // Send an error response to the browser
-        // status(500) means "Internal Server Error"
-        res.status(500).send('Database error: ' + err.message);
-    }  
-    
-    //res.render('admin', {orders});
+    } catch (err){
+        console.error('Database error: ', err);
+        res.status(500).send('Database error occurred.');
+    }
 });
 
 app.listen(PORT, () => {
