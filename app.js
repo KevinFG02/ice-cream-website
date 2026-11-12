@@ -49,15 +49,39 @@ app.get('/confirm-order', (req, res) => {
     res.render('confirm');
 })
 
-app.post('/submit-order', (req, res) => {
+app.post('/submit-order', async(req, res) => {
+    // Create JSON object to store order data
     const order = req.body;
+    order.timestamp = new Date();
 
-    order['timestamp'] = new Date();
+    console.log(order);
 
-    orders.push(order);
-    console.log(orders);
+    // Convert toppings array to a comma-delimited string
+    order.toppings = Array.isArray(order.toppings) ?
+        order.toppings.join(", ") : "";
 
-    res.render('confirm', { order });
+    // Define an SQL query to INSERT new order
+    const sql = `INSERT INTO orders (name, email, flavor, cone, toppings, comment) 
+                    VALUES(?, ?, ?, ?, ?, ?, ?)`;
+    // Create an array of parameters from order data
+    const params = [
+        order.name,
+        order.email,
+        order.flavor,
+        order.cone,
+        order.toppings,
+        order.comment
+    ];
+
+    // Execute the query
+    const [result] = await pool.execute(sql, params);
+
+    // Get the id from the newly inserted row
+    order.id = result.insertId;
+    console.log("A new row was inserted with ID " + order.id);
+
+    // Display the confirmation page
+    res.render('confirm', {order})
 })
 
 app.get('/admin', async(req, res) =>{
