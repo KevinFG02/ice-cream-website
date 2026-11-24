@@ -45,6 +45,13 @@ app.get('/session-test', (req, res ) => {
         Logged in: ${req.session.loggedIn} === true`);
 });
 
+function requireLogin(req, res, next){
+    if(req.session.loggedIn){
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 app.get('/', (req, res) => {
     //res.send('Pizza Time!');
@@ -61,6 +68,10 @@ app.get('/db-test', async(req, res) => {
         console.error("Database error: ", err);
         res.status(500).send('Database error: ' + err.message);
     }
+})
+
+app.get('/login', (req, res) => {
+    res.render('', {error: null});
 })
 
 app.get('/confirm-order', (req, res) => {
