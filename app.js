@@ -71,8 +71,25 @@ app.get('/db-test', async(req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    res.render('', {error: null});
+    res.render('login', {error: null});
 })
+
+// Process the login form
+app.post('/login', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+ 
+    // Compare the form values to the values in .env
+    if (username === process.env.ADMIN_USER &&
+        password === process.env.ADMIN_PASSWORD) {
+        req.session.loggedIn = true;
+        res.redirect('/admin');
+    } else {
+        res.render('login',
+            { error: 'Invalid username or password.' });
+    }
+});
+
 
 app.get('/confirm-order', (req, res) => {
     res.render('confirm');
@@ -119,7 +136,7 @@ app.post('/submit-order', async(req, res) => {
     }
 })
 
-app.get('/admin', async(req, res) =>{
+app.get('/admin', requireLogin, async(req, res) =>{
     try {
         const [orders] = await pool.query(`SELECT * FROM orders ORDER BY timestamp DESC`);
         console.log(orders);
