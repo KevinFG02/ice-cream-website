@@ -4,6 +4,8 @@ import mysql2 from 'mysql2';
 
 import dotenv from 'dotenv';
 
+import session from 'express-session';
+
 dotenv.config();
 
 const pool = mysql2.createPool({
@@ -27,6 +29,22 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
+
+//Session middleware: lets the server remember users between requests
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60}
+}));
+
+//Session test route
+app.get('/session-test', (req, res ) => {
+    req.session.views = (req.session.views || 0) + 1;
+    res.send(`Visits: ${req.session.views}<br>
+        Logged in: ${req.session.loggedIn} === true`);
+});
+
 
 app.get('/', (req, res) => {
     //res.send('Pizza Time!');
