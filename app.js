@@ -38,13 +38,6 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60}
 }));
 
-//Session test route
-app.get('/session-test', (req, res ) => {
-    req.session.views = (req.session.views || 0) + 1;
-    res.send(`Visits: ${req.session.views}<br>
-        Logged in: ${req.session.loggedIn} === true`);
-});
-
 function requireLogin(req, res, next){
     if(req.session.loggedIn){
         next();
@@ -90,6 +83,11 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
+});
 
 app.get('/confirm-order', (req, res) => {
     res.render('confirm');
@@ -101,7 +99,7 @@ app.post('/submit-order', async(req, res) => {
         const order = req.body;
         order.timestamp = new Date();
 
-        console.log(order);
+        //console.log(order);
 
         // Convert toppings array to a comma-delimited string
         order.toppings = Array.isArray(order.toppings) ?
@@ -126,7 +124,7 @@ app.post('/submit-order', async(req, res) => {
 
         // Get the id from the newly inserted row
         order.id = result.insertId;
-        console.log("A new row was inserted with ID " + order.id);
+        //console.log("A new row was inserted with ID " + order.id);
 
         // Display the confirmation page
         res.render('confirm', {order});
@@ -139,7 +137,7 @@ app.post('/submit-order', async(req, res) => {
 app.get('/admin', requireLogin, async(req, res) =>{
     try {
         const [orders] = await pool.query(`SELECT * FROM orders ORDER BY timestamp DESC`);
-        console.log(orders);
+        //console.log(orders);
         res.render('admin', { orders });
 
     } catch (err){
